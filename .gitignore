@@ -1,0 +1,17 @@
+# Ignore everything by default
+*
+
+# Whitelist .gitignore itself
+!.gitignore
+
+# Whitelist data directory and all its contents
+!data/
+!data/**
+
+# Whitelist igor directory and all its contents
+!igor/
+!igor/**
+
+# Whitelist igor_report directory and all its contents
+!igor_report/
+!igor_report/**

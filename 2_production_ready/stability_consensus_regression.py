@@ -78,13 +78,13 @@ def main():
     print("STARTING 10-FOLD CONSENSUS STABILITY FEATURE SELECTION & EVALUATION")
     print("="*80)
     
-    output_dir = "igor_report"
+    output_dir = "2_production_ready"
     os.makedirs(output_dir, exist_ok=True)
     
     # 1. Load Data
     data_df = pd.read_csv('data/waka_dragon_merged.csv')
     vY = data_df['Imax'].values
-    exclude_cols = ['Unnamed: 0.1', 'Unnamed: 0', 'CAS', 'Name', 'CID', 'SMILES', 'intensity_class', 'Imax']
+    exclude_cols = ['Unnamed: 0.1', 'Unnamed: 0', 'CAS', 'Name', 'CID', 'SMILES', 'intensity_class', 'Imax', 'Ci', 'Di_x']
     feature_names = [col for col in data_df.columns if col not in exclude_cols]
     mX_raw = data_df[feature_names].fillna(0).values
     
@@ -161,6 +161,9 @@ def main():
     consensus_indices = [feature_names.index(f) for f in consensus_features]
     X_consensus = X_full_scaled[:, consensus_indices]
     
+    # Import cross_val_predict for honest model comparison
+    from sklearn.model_selection import cross_val_predict
+    
     models = {
         "Ridge Regression (alpha=10)": Ridge(alpha=10.0, random_state=42),
         "Support Vector Regressor (SVR)": SVR(C=10.0, epsilon=0.1),
@@ -168,24 +171,42 @@ def main():
         "Decision Tree Regressor (Depth=5)": DecisionTreeRegressor(max_depth=5, random_state=42)
     }
     
-    print("\nFull Data Performance using Consensus Features:")
+    print("\n" + "="*60)
+    print("MODEL EVALUATION & GENERALIZATION COMPARISON")
+    print("="*60)
+    
+    cv_eval = KFold(n_splits=5, shuffle=True, random_state=42)
+    
+    best_model_name = None
+    best_cv_r2 = -999.0
+    
     for model_name, model in models.items():
-        # Train on 100% of data
+        # A. Evaluate Generalization Capability on Unseen Data (Honest 5-Fold CV)
+        y_cv_pred = cross_val_predict(model, X_consensus, vY, cv=cv_eval)
+        cv_r2 = r2_score(vY, y_cv_pred)
+        cv_mae = mean_absolute_error(vY, y_cv_pred)
+        cv_rmse = np.sqrt(mean_squared_error(vY, y_cv_pred))
+        
+        # B. Evaluate training fit on 100% data
         model.fit(X_consensus, vY)
-        y_pred = model.predict(X_consensus)
+        y_full_pred = model.predict(X_consensus)
+        full_r2 = r2_score(vY, y_full_pred)
+        full_mae = mean_absolute_error(vY, y_full_pred)
         
-        r2 = r2_score(vY, y_pred)
-        mae = mean_absolute_error(vY, y_pred)
-        rmse = np.sqrt(mean_squared_error(vY, y_pred))
+        print(f"\n* {model_name}:")
+        print(f"  -> Generalization Score (5-Fold CV / Новые молекулы) -> R2: {cv_r2:.4f} | MAE: {cv_mae:.2f} | RMSE: {cv_rmse:.2f}")
+        print(f"  -> Resubstitution Score (100% Full Data Fit / Вся дата) -> R2: {full_r2:.4f} | MAE: {full_mae:.2f}")
         
-        print(f"  * {model_name} -> R2 Score: {r2:.4f} | MAE: {mae:.2f} | RMSE: {rmse:.2f}")
+        if cv_r2 > best_cv_r2:
+            best_cv_r2 = cv_r2
+            best_model_name = model_name
         
-        # Save SVR scatter plot
+        # Save SVR scatter plot (CV predictions are much more honest for visualization!)
         if "SVR" in model_name:
             plt.figure(figsize=(10, 8))
-            sns.regplot(x=vY, y=y_pred, color='teal', scatter_kws={'alpha':0.6, 'color':'mediumseagreen'}, line_kws={'color':'darkgreen'})
+            sns.regplot(x=vY, y=y_cv_pred, color='teal', scatter_kws={'alpha':0.6, 'color':'mediumseagreen'}, line_kws={'color':'darkgreen'})
             plt.plot([vY.min(), vY.max()], [vY.min(), vY.max()], 'r--', lw=2, label='Perfect Prediction')
-            plt.title(f"Full Dataset Prediction using Consensus Features ({model_name})", fontsize=14, fontweight='bold')
+            plt.title(f"Honest Out-of-Fold Predictions using Consensus Features ({model_name})", fontsize=14, fontweight='bold')
             plt.xlabel("Actual Scent Intensity (Imax)", fontsize=12)
             plt.ylabel("Predicted Scent Intensity (Imax)", fontsize=12)
             plt.legend()
@@ -193,6 +214,11 @@ def main():
             plt.tight_layout()
             plt.savefig(os.path.join(output_dir, "consensus_predictions.png"), dpi=300)
             plt.close()
+            
+    print("\n" + "="*60)
+    print(f"CONCLUSIONS: The BEST model to predict completely new scent datasets is:")
+    print(f"🥇 {best_model_name} with an honest CV R2 of {best_cv_r2:.4f}!")
+    print("="*60)
             
     print("\nConsensus Stability Experiment finished successfully!")
 

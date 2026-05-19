@@ -12,6 +12,6 @@
 !igor/
 !igor/**
 
-# Whitelist igor_report directory and all its contents
-!igor_report/
-!igor_report/**
+# Whitelist 2_production_ready directory and all its contents
+!2_production_ready/
+!2_production_ready/**

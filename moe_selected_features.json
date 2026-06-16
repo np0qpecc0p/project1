@@ -1,0 +1,25 @@
+{
+    "Steric": [
+        "VE1sign_Dt",
+        "SpMax7_Bh_s_",
+        "SpMax6_Bh_s_",
+        "MPC06"
+    ],
+    "Electrostatic": [
+        "GATS1e",
+        "GATS8v",
+        "MATS1v",
+        "GATS8p"
+    ],
+    "Hydrophobic": [
+        "HyWi_H2",
+        "HyWi_B_e_",
+        "HyWi_B_i_",
+        "HyWi_Dz_p_"
+    ],
+    "H_Bonds": [
+        "TPSA_NO_",
+        "TPSA_Tot_",
+        "SAacc"
+    ]
+}

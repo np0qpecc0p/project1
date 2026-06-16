@@ -1,0 +1,86 @@
+{
+    "worst_failures": [
+        {
+            "Canonical_Name": "ethyl mercaptan",
+            "Preferred_Imax": 100.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 100.0
+        },
+        {
+            "Canonical_Name": "3-(methylthio)propyl acetate",
+            "Preferred_Imax": 100.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 100.0
+        },
+        {
+            "Canonical_Name": "TRUFFLE SULFIDE",
+            "Preferred_Imax": 95.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 95.0
+        },
+        {
+            "Canonical_Name": "DYNASCONE/NEOBUTENONE",
+            "Preferred_Imax": 95.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 95.0
+        },
+        {
+            "Canonical_Name": "PROPYLENE GLYCOL ACETONE KETAL",
+            "Preferred_Imax": 92.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 92.0
+        },
+        {
+            "Canonical_Name": "ALLYL SULFIDE",
+            "Preferred_Imax": 91.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 91.0
+        },
+        {
+            "Canonical_Name": "2,4,5-TRIMETHYLOXAZOLE",
+            "Preferred_Imax": 90.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 90.0
+        },
+        {
+            "Canonical_Name": "2,5-DIMETHYL FURAN",
+            "Preferred_Imax": 90.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 90.0
+        },
+        {
+            "Canonical_Name": "DIMETHYL PYRIDINE 2,6",
+            "Preferred_Imax": 88.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 88.0
+        },
+        {
+            "Canonical_Name": "5-HEXEN-2-ONE",
+            "Preferred_Imax": 85.0,
+            "MoE_Synergy_Pred": 0.0,
+            "Error": 85.0
+        }
+    ],
+    "group_stats": {
+        "Steric": {
+            "inliers": 747,
+            "outliers": 523
+        },
+        "Electrostatic": {
+            "inliers": 707,
+            "outliers": 563
+        },
+        "Hydrophobic": {
+            "inliers": 738,
+            "outliers": 532
+        },
+        "H_Bonds": {
+            "inliers": 683,
+            "outliers": 587
+        }
+    },
+    "absolute_outliers": 320,
+    "absolute_inliers": 438,
+    "r2_on_absolute_inliers": -5.8847108556806695,
+    "total_mols": 1270
+}

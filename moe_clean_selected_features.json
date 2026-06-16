@@ -1,0 +1,31 @@
+{
+    "Steric": [
+        "RDF010s",
+        "SpMax6_Bh_s_",
+        "SpMaxA_AEA_dm_",
+        "SpMax7_Bh_s_",
+        "MPC06",
+        "SpMaxA_AEA_ri_"
+    ],
+    "Electrostatic": [
+        "MATS1m",
+        "MATS1v",
+        "GATS8p",
+        "GATS8i",
+        "GATS8v",
+        "MATS2e"
+    ],
+    "Hydrophobic": [
+        "HyWi_H2",
+        "HyWi_B_e_",
+        "HyWi_B_m_",
+        "HyWi_B_i_",
+        "HyWi_B_v_",
+        "HyWi_Dt"
+    ],
+    "H_Bonds": [
+        "TPSA_NO_",
+        "TPSA_Tot_",
+        "SAacc"
+    ]
+}
